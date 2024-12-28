@@ -1,0 +1,10 @@
+# venv
+.venv
+
+# ini
+.fleet.ini
+.flaskenv
+
+
+# docs
+docs/

@@ -9,26 +9,45 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>Fleet</title>
   </head>
-  <body class="hold-transition login-page login-body dark-mode">
-     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <div class="card shadow p-4" style="width: 400px;">
-            <h3 class="text-center mb-4">Login</h3>
-            <form method="POST" action="">
-                {{ form.hidden_tag() }}
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    {{ form.username(class="form-control", id="username", placeholder="Enter your username") }}
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    {{ form.password(class="form-control", id="password", placeholder="Enter your password") }}
-                </div>
-                <div class="text-center">
-                    {{ form.submit(class="btn btn-primary btn-block") }}
-                </div>
-            </form>
+  <body class="login-page login-body  dark-mode" >
+    <div class="login-bg"></div>
+     <div class="login-box">
+          <div class="login-logo m-0 pt-5">
+              <img src="{{ url_for('static', filename='images/login_logo.png') }}" alt="login-logo">
+          </div>
+          <!-- /.login-logo -->
+          <div class="card">
+            <div class="card-body login-card-body">
+              <p class="login-box-msg">Log in to use the web application!</p>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        {{ form.username(class="form-control", id="username", placeholder="Enter your username") }}
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        {{ form.password(class="form-control", id="password", placeholder="Enter your password") }}
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                {{ form.remember(id="remember") }}
+                              <label for="remember">Remember Me</label>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            {{ form.submit(class="btn btn-primary btn-block") }}
+                        </div>
+                    </div>
+                </form>
+              <a href="#" class="my-1" onclick="addToast('Please email customer service', 'Info', 'bg-danger')">I forgot my password</a>
+            </div>
+            <!-- /.login-card-body -->
+          </div>
         </div>
-    </div>
+
+
 
      <!-- TOAST -->
   {% with messages = get_flashed_messages(with_categories=true) %}
@@ -57,10 +76,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-      <script>
-      $(document).ready(function() {
-        $('.toast').toast('show');
-      });
-    </script>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
   </body>
 </html>

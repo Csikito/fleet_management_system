@@ -30,6 +30,7 @@ def create_app(flask_app, test=False):
     if flask_app == "FLEET":
         login_manager.init_app(app)
         login_manager.login_view = "login_page.login"
+        app.config['REMEMBER_COOKIE_DURATION'] = 60 * 60 * 24 * 7  # 7 day
 
         @login_manager.user_loader
         def load_user(user_id):

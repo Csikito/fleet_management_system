@@ -1,3 +1,57 @@
 body{
     background-color:#444;
+    color:#000
+}
+
+.login-bg{
+    position: absolute;
+    height:100%;
+    width:100%;
+    background-image: linear-gradient(0.25turn, rgb(0,0,0),
+                                      rgba(0,0,0,.6), rgba(0,0,0)),
+                                      url('/static/images/login_bg.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    z-index:-1;
+    box-shadow:  -300px 0px 150px 50px #000 inset, 300px 0px 150px 50px #000 inset;
+}
+
+.alert-toast{
+    min-width: 250px;
+    min-height: 115px;
+    margin: 1rem;
+}
+
+.login{
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: #e9ecef;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100vh;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.login-logo img{
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.dark-mode input:-webkit-autofill{
+    -webkit-text-fill-color: #000; !important
+}
+
+.dark-mode input:-webkit-autofill:hover{
+    -webkit-text-fill-color: #000; !important
+}
+
+
+@media all and (max-width: 1200px) {
+  .login-bg{
+    box-shadow: none;
+  }
 }

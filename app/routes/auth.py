@@ -13,11 +13,12 @@ def login():
         if login_form.validate_on_submit():
             username = login_form.username.data
             password = login_form.password.data
+            remember  = login_form.remember.data
 
             user = User.query.filter_by(username=username).first()
             if user and user.password and user.check_password(password=password):
                 if user.active:
-                    login_user(user)
+                    login_user(user, remember=remember)
                     return redirect(url_for('dashboard.dashboard'))
                 else:
                     flash('Your account is inactive. Please contact support.', 'Info')

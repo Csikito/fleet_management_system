@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
     <title>Fleet</title>
   </head>
-  <body class="sidebar-mini layout-fixed sidebar-collapse dark-mode">
+  <body class="sidebar-mini layout-fixed dark-mode">
   <div class="wrapper">
     <nav class="main-header navbar navbar-expand navbar-dark">
     <!-- Left navbar links -->
@@ -108,23 +108,32 @@
   </div>
   <!-- /.sidebar -->
 </aside>
-  <div class="content-wrapper" style="min-height: 804px;">
-    <!-- Content Header (Page header) -->
+  <div class="content-wrapper">
+    <!-- Content Header / Breadcrumb (Page header) -->
+    {% block breadcrumb %}
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+                    <h1 class="nav-link">{{ header_title }}</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
+               {% for crumb in g.breadcrumbs %}
+                {% if loop.last %}
+                  <li class="breadcrumb-item active" aria-current="page">{{ crumb.title }}</li>
+                {% else %}
+                  <li class="breadcrumb-item">
+                    <a href="{{ crumb.url }}">{{ crumb.title }}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
+      {% endblock %}
     <!-- /.content-header -->
     <!-- Main content -->
     <section class="content">

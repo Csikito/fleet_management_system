@@ -1,8 +1,9 @@
 $(document).ready(function() {
     $('.toast').toast('show');
+    setActiveSidebarItem()
 });
 
-function addToast(msg, title='Info', toast_class="bg-info"){
+const addToast = (msg, title='Info', toast_class="bg-info") => {
     let toast = $(document).Toasts('create', {
         'title': title,
         'body': msg,
@@ -13,3 +14,13 @@ function addToast(msg, title='Info', toast_class="bg-info"){
         'delay': 3000
         });
 }
+
+const setActiveSidebarItem = () => {
+    $('.nav-sidebar .nav-link').removeClass('active');
+    let active_item = $(`a[href="${this.location.pathname}"]`);
+    active_item.addClass('active')
+
+    $('.nav-item').removeClass('menu-open');
+    active_item.parent().parent().parent().addClass('menu-open')
+}
+

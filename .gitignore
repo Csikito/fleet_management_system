@@ -9,3 +9,7 @@ __pycache__
 
 # docs
 docs/
+
+# task
+.csr_task.md
+.csr_task.py

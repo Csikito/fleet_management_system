@@ -39,10 +39,11 @@ def create_app(flask_app, test=False):
 
         with app.app_context():
             from .routes import auth, dashboard
-            from .util import page_not_found, page_internal_server_error
+            from .util import page_not_found, page_internal_server_error , page_no_access
 
             app.register_blueprint(auth.login_page)
             app.register_blueprint(dashboard.admin_page)
+            app.register_error_handler(403, page_no_access)
             app.register_error_handler(404, page_not_found)
             app.register_error_handler(500, page_internal_server_error)
 

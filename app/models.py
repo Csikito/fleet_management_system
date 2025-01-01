@@ -14,10 +14,10 @@ class MyDbModel:
         db.session.commit()
 
 
-class UserRight(UserMixin, db.Model, MyDbModel):
+class Permission(db.Model, MyDbModel):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(200))
-    app_right = db.Column(db.Text(), nullable=True)
+    permissions = db.Column(db.Text(), nullable=True)
 
 
 class User(UserMixin, db.Model, MyDbModel):
@@ -29,8 +29,8 @@ class User(UserMixin, db.Model, MyDbModel):
     image = db.Column(db.LargeBinary())
     username = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(200))
-    app_right = db.Column(db.Integer(), db.ForeignKey(UserRight.id), nullable=True)
-    user_right = db.relationship(UserRight, foreign_keys=[app_right])
+    permission = db.Column(db.Integer(), db.ForeignKey(Permission.id), nullable=True)
+    permissions = db.relationship(Permission, foreign_keys=[permission])
     active = db.Column(db.Boolean())
 
     def set_password(self, password):

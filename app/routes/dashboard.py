@@ -88,10 +88,21 @@ def permission_edit(id):
     else:
         form.name.data = permission.name
         existing_permissions = json.loads(permission.permissions) if permission.permissions else []
-        for id, field in form.boolean_fields:
-            if id in existing_permissions:
+        for field_id, field in form.boolean_fields:
+            if field_id in existing_permissions:
                 field.data = True
 
     return render_template("permission_edit.html",
                            header_title="Permission Edit",
-                           form=form)
+                           form=form,
+                           id=id)
+
+
+@admin_page.route('/permission_delete/<int:id>', methods=["GET", "POST"])
+@register_breadcrumbs(admin_page, ".permission_delete.id", "Permission edit ")
+def permission_delete(id):
+    permission = Permission.query.get_or_404(id)
+    permission.delete()
+    flash('Permission delete successfully.', 'success')
+    return redirect(url_for('dashboard.permission'))
+

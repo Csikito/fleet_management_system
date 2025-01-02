@@ -1,8 +1,10 @@
+import json
 from enum import unique
 
 from flask_login import UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
+from .util import get_permission_status_name
 
 class MyDbModel:
     def save(self):
@@ -13,11 +15,25 @@ class MyDbModel:
         db.session.delete(self)
         db.session.commit()
 
+class PermissionStatusCodes:
+    # Sidebar
+    USERS = 1
+    PERMISSION = 2
+    VEHICLES = 3
+    FINANCIAL_REPORT = 4
+    VEHICLE_REPORT = 5
+    MILEAGE_REPORT = 6
+
 
 class Permission(db.Model, MyDbModel):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(200))
     permissions = db.Column(db.Text(), nullable=True)
+
+    def get_processed_permissions(self):
+        permission_ids = json.loads(self.permissions) if self.permissions else []
+        names = [get_permission_status_name(True).get(perm_id, f"Unknown ({perm_id})") for perm_id in permission_ids]
+        return ", ".join(names)
 
 
 class User(UserMixin, db.Model, MyDbModel):

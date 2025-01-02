@@ -42,31 +42,6 @@ def get_breadcrumbs_url(blueprint_name, key):
     return url
 
 
-class Permissions:
-    # Sidebar
-    USERS = 1
-    PERMISSION = 2
-    VEHICLES = 3
-    FINANCIAL_REPORT = 4
-    VEHICLE_REPORT = 5
-    MILEAGE_REPORT = 6
-
-    @classmethod
-    def get_all_permissions(cls):
-        return [
-            value for key, value in vars(cls).items()
-            if not key.startswith('__') and isinstance(value, tuple) #!!!
-        ]
-
-    @classmethod
-    def get_permission_by_name(cls, name):
-        return next((perm for perm in cls.get_all_permissions() if perm[1] == name), None)
-
-    @classmethod
-    def get_permission_by_id(cls, id):
-        return next((perm for perm in cls.get_all_permissions() if perm[0] == id), None)
-
-
 def permission_required(permission_key):
     def decorator(func):
         @wraps(func)

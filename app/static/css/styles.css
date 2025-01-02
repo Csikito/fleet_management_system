@@ -3,6 +3,10 @@ body{
     color:#000
 }
 
+a {
+    color: #F6F016;
+}
+
 .login-bg{
     position: absolute;
     height:100%;

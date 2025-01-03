@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    console.log("asd")
     $('#permissionsTable').DataTable({
         dom: 'lrtip',
          ajax: {

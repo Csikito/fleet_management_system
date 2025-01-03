@@ -31,6 +31,7 @@ def create_app(flask_app, test=False):
         login_manager.init_app(app)
         login_manager.login_view = "login_page.login"
         app.config['REMEMBER_COOKIE_DURATION'] = 60 * 60 * 24 * 7  # 7 day
+        app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # e.g update img
 
         @login_manager.user_loader
         def load_user(user_id):

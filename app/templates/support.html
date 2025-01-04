@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block style %} <link rel="stylesheet" href="{{ url_for('static', filename='css/support.css') }}"> {% endblock %}
+{% block content %}
+<div class="support-container text-center">
+    <h1>Support</h1>
+    <p>If you have any questions, comments or concerns about the site, please contact me on my LinkedIn profile!</p>
+    <a href="https://www.linkedin.com/in/ronald-csik%C3%B3s-a60938235/" target="_blank" class="btn btn-primary">
+        <i class="fab fa-linkedin"></i>
+    </a>
+</div>
+{% endblock %}

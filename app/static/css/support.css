@@ -1,0 +1,25 @@
+.support-container {
+    margin: 50px auto;
+    padding: 20px;
+    max-width: 600px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #343a40;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.support-container h1 {
+    font-size: 2rem;
+    color: #0073b1;
+}
+
+.support-container p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.support-container a {
+    font-size: 1.2rem;
+    color: white;
+    text-decoration: none;
+}

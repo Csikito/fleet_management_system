@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/coming_soon.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+      {% block style %} {% endblock %}
     <title>Fleet</title>
   </head>
   <body class="sidebar-mini layout-fixed dark-mode">
@@ -112,7 +113,7 @@
             </ul>
           </li>
            <li class="nav-item">
-            <a href="{{ url_for('dashboard.coming_soon') }}" class="nav-link">
+            <a href="{{ url_for('dashboard.support') }}" class="nav-link">
               <i class="nav-icon fas fa-headset"></i>
               <p>Support</p>
             </a>

@@ -226,3 +226,7 @@ def vehicle_edit(id):
                            header_title="Vehicle edit",
                            form=form,
                            )
+
+@admin_page.route('/support', methods=["GET"])
+def support():
+    return render_template("support.html")

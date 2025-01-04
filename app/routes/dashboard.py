@@ -1,5 +1,6 @@
 import json
 import base64
+import datetime
 
 from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
 from flask_login import current_user, login_required
@@ -26,8 +27,15 @@ def index():
 @login_required
 @register_breadcrumbs(admin_page, ".dashboard", "Dashboard")
 def dashboard():
+    closest_vehicle = Vehicle.query.filter(Vehicle.registration_expiry_date >= datetime.datetime.today()) \
+        .order_by(Vehicle.registration_expiry_date.asc()) \
+        .first()
+    data= { "users": User.query.count(),
+            "vehicles": Vehicle.query.count(),
+            "upcoming_operation": closest_vehicle.registration_expiry_date or "-"
+            }
     return render_template("dashboard.html",
-                           name = current_user.first_name,
+                           data = data,
                            header_title="Dashboard"
                            )
 

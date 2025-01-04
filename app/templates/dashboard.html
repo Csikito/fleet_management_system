@@ -1,7 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-  <h1>Hello {{ name }}!</h1>
+  <div class="row">
+    <div class="col-12 col-sm-6 col-md-4">
+    <div class="info-box">
+      <span class="info-box-icon bg-info"><i class="fa fa-users"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Users</span>
+        <span class="info-box-number">{{data.users}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix hidden-md-up"></div>
+    <div class="col-12 col-sm-6 col-md-4">
+    <div class="info-box">
+      <span class="info-box-icon bg-info"><i class="fa fa-taxi"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Vehicles</span>
+        <span class="info-box-number">{{data.vehicles}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-md-4">
+    <div class="info-box">
+      <span class="info-box-icon bg-info"><i class="fa fa-wrench"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-text">Upcoming maintenance or registration</span>
+        <span class="info-box-number">{{data.upcoming_operation}}</span>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

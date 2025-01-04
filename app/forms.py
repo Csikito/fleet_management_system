@@ -2,9 +2,11 @@ from flask_wtf import FlaskForm
 from wtforms import (StringField, PasswordField, SubmitField, SelectField, IntegerField, TextAreaField, HiddenField,
                      BooleanField)
 from flask_wtf.file import FileField, FileAllowed
+from wtforms.fields import DateField
 from wtforms.validators import DataRequired
 
-from .util import get_permission_status_name
+from .util import (get_permission_status_name, get_vehicle_type_status_name, get_vehicle_model_status_name,
+                   get_user_id_name)
 from .models import Permission
 
 
@@ -69,3 +71,20 @@ class EditUserForm(UserForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.username.render_kw = {'readonly': True}
+
+
+class VehicleForm(FlaskForm):
+    type = SelectField("Type", choices=get_vehicle_type_status_name())
+    model = SelectField("Manufacturer/Model", choices=get_vehicle_model_status_name())
+    year = IntegerField('Year', validators=[DataRequired(message='The year field is required')])
+    engine_type = SelectField("Engine type", choices=[(1,"Petrol"), (2,"Diesel")])
+    license_plate = StringField('License plate', validators=[DataRequired(message='The License plate field is required')])
+    image = FileField('Vehicle image', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
+    initial_mileage = IntegerField('Initial mileage', validators=[DataRequired(message='The initial mileage name field is required')])
+    current_mileage = IntegerField('Current mileage')
+    registration_expiry_date = DateField('Registration expiry date',
+                                                  format='%Y-%m-%d',
+                                                  validators=[DataRequired(message='The registration expiry date field is required')])
+    driver = SelectField("Driver", choices=get_user_id_name())
+
+    submit = SubmitField('Save')

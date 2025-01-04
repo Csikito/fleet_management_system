@@ -31,3 +31,36 @@ def get_permission_status_name(to_dict=False):
         return dict(status_name)
     return status_name
 
+def get_vehicle_type_status_name(to_dict=False):
+    from .models import VehicleTypeStatusCodes
+    status_name = [
+        (VehicleTypeStatusCodes.CAR ,"Car"),
+        (VehicleTypeStatusCodes.VAN ,"Van"),
+        (VehicleTypeStatusCodes.TRUCK ,"Truck"),
+    ]
+    if to_dict:
+        return dict(status_name)
+    return status_name
+
+def get_vehicle_model_status_name(to_dict=False):
+    from .models import VehicleModelStatusCodes
+    status_name = [
+        (VehicleModelStatusCodes.CITROEN_JUMPER ,"Citroen Jumper"),
+        (VehicleModelStatusCodes.OPEL_MOVANO ,"Opel Movano"),
+        (VehicleModelStatusCodes.SCANIA_R450 ,"Scania R450"),
+        (VehicleModelStatusCodes.MAN_TGX ,"Man TGX"),
+        (VehicleModelStatusCodes.OPEL_ASTRA ,"Opel Astra"),
+        (VehicleModelStatusCodes.SEAT_IBIZA ,"Seat Ibiza"),
+    ]
+    if to_dict:
+        return dict(status_name)
+    return status_name
+
+def get_user_id_name(to_dict=False):
+    from .models import User
+    users = User.query.all()
+    user_list = [(user.id, f"{user.first_name} {user.last_name}") for user in users] # (id, name)
+    if to_dict:
+        return dict(user_list)
+    return user_list
+

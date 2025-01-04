@@ -55,3 +55,35 @@ class User(UserMixin, db.Model, MyDbModel):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+
+class VehicleTypeStatusCodes:
+    CAR = 1
+    VAN = 2
+    TRUCK = 3
+
+
+class VehicleModelStatusCodes:
+    CITROEN_JUMPER = 1
+    OPEL_MOVANO = 2
+    SCANIA_R450 = 3
+    MAN_TGX = 4
+    OPEL_ASTRA = 5
+    SEAT_IBIZA = 6
+
+
+class Vehicle(db.Model, MyDbModel):
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    type = db.Column(db.Integer, nullable=False)
+    model = db.Column(db.Integer, nullable=False)
+    year = db.Column(db.Integer, nullable=False)
+    engine_type = db.Column(db.Integer, nullable=False)
+    license_plate = db.Column(db.String(50), nullable=False)
+    image = db.Column(db.LargeBinary())
+    initial_mileage = db.Column(db.Integer, nullable=False)
+    current_mileage = db.Column(db.Integer, nullable=True)
+    registration_expiry_date = db.Column(db.Date, nullable=True)
+    driver = db.Column(db.Integer(), db.ForeignKey(User.id), nullable=True)
+    user = db.relationship(User, foreign_keys=[driver])
+
+

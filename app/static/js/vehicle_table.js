@@ -15,11 +15,11 @@ $(document).ready(function() {
         columns: [
             { title: 'Vehicle image', data: 'image', render : function (data, type, row){
                 if(data){
-                   let img = `<img src="data:;base64,${data}" class="img-circle elevation-2" style="width:50px; height:50px" alt="User Image">`
+                   let img = `<img src="data:;base64,${data}" class="img-circle elevation-2" style="width:35px; height:35px" alt="User Image">`
                    return img
                 }
                 else{
-                    return `<i class="fas fa-circle-user"></i>`
+                    return `<i class="fas fa-car-tunnel fa-xl ml-1"></i>`
                 }
             }},
             { title: 'Type', data: 'type' , render : function (data, type, row){

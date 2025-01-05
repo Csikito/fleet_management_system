@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mt-4">
-  <form method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data" novalidate>
     {{ form.hidden_tag() }}
     <div class="row">
       <div class="col-6">
@@ -40,21 +40,23 @@
             <small class="text-danger">{{ error }}</small>
           {% endfor %}
         </div>
-        <div class="form-group">
-          <label for="permission">{{ form.permission.label }}</label>
-          {{ form.permission(class="form-control") }}
-          {% for error in form.permission.errors %}
-            <small class="text-danger">{{ error }}</small>
-          {% endfor %}
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label for="permission">{{ form.permission.label }}</label>
+              {{ form.permission(class="form-control") }}
+              {% for error in form.permission.errors %}
+                <small class="text-danger">{{ error }}</small>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-6 d-flex justify-content-center align-items-center">
+            <div class="custom-control custom-checkbox">
+              {{ form.active(class="custom-control-input", type="checkbox") }}
+              <label class="custom-control-label" for="active" role="button">{{ form.active.label }}</label>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="active">{{ form.active.label }}</label>
-          {{ form.active(class="form-control") }}
-          {% for error in form.active.errors %}
-            <small class="text-danger">{{ error }}</small>
-          {% endfor %}
-        </div>
-
       </div>
       <div class="col-6">
         <div class="form-group">
@@ -80,11 +82,20 @@
             {% endfor %}
           </div>
         {% endif %}
-          {{ form.image.label }} {{ form.image }}
+        <div>
+          <div>{{ form.image.label }}</div>
+          <img id="image-preview" src="data:;base64,{{ img_string }}" alt="Image preview" class="img-thumbnail mt-2" style="max-width: 100px;">
+          {{ form.image(class="form-control-file mt-3", id="image", onchange="previewImage(event)") }}
+        </div>
+
       </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+    <button type="submit" class="btn btn-success">{{ form.submit.label.text }}</button>
   </form>
 </div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/user_edit.js') }}"></script>
 {% endblock %}

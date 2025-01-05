@@ -2,7 +2,7 @@ import json
 import base64
 import datetime
 
-from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
+from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify, current_app
 from flask_login import current_user, login_required
 from ..decorators import register_breadcrumbs, permission_required, get_breadcrumbs, permission_required
 from ..models import User, Permission, PermissionStatusCodes, Vehicle
@@ -163,8 +163,14 @@ def user_edit(id):
         flash('Create new user successfully.', 'success')
         return redirect(url_for('dashboard.users'))
 
+    img_bytes = user.image  # bytes
+    if not img_bytes:
+        img_bytes = open(current_app.static_folder + "/images/profile_img.png", 'rb').read()
+    img_string = base64.b64encode(img_bytes).decode("ascii")
+
     return render_template("user_edit.html",
                            header_title="User edit",
+                           img_string=img_string,
                            form=form,
                            )
 

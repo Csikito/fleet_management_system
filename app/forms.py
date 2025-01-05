@@ -1,13 +1,21 @@
+import re
 from flask_wtf import FlaskForm
 from wtforms import (StringField, PasswordField, SubmitField, SelectField, IntegerField, TextAreaField, HiddenField,
                      BooleanField)
 from flask_wtf.file import FileField, FileAllowed
 from wtforms.fields import DateField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
 
 from .util import (get_permission_status_name, get_vehicle_type_status_name, get_vehicle_model_status_name,
                    get_user_id_name)
 from .models import Permission
+
+
+def validate_phone(form, field):
+    phone_number = field.data
+    if not re.match(r'^\+?\d{10,15}$', phone_number):
+        raise ValidationError('Invalid phone number. It must be 10-15 digits and can start with a "+".')
+
 
 
 class LoginForm(FlaskForm):
@@ -42,15 +50,17 @@ class PermissionForm(FlaskForm):
 
 
 class MatchingPasswordsForm(FlaskForm):
-    password = PasswordField('Password')
-    repeat_password = PasswordField('Repeat password')
-
+    password = PasswordField('Password', validators=[DataRequired(message='The password name field is required'),
+                       Length(min=5, max=200, message='password must be in 5 to 200 characters')])
+    repeat_password = PasswordField('Repeat Password',
+                                     validators=[EqualTo('password', message='Passwords must match')])
 
 class UserForm(FlaskForm):
     first_name = StringField('First name', validators=[DataRequired(message='The first name field is required')])
     last_name = StringField('Last name', validators=[DataRequired(message='The last name field is required')])
-    email = StringField('Email', validators=[DataRequired(message='The email field is required')])
-    phone = StringField('Phone', validators=[DataRequired(message='The phone field is required')])
+    email = StringField('Email', validators=[DataRequired(message='The Email field is required'),
+                                                    Email(message='Not a valid email address')])
+    phone = StringField('Phone', validators=[DataRequired(message='The phone field is required'), validate_phone])
     image = FileField('Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
     username = StringField('Username', validators=[DataRequired(message='The Username field is required')])
     active = BooleanField("Active", default=True)

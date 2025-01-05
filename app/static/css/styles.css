@@ -26,12 +26,6 @@ a {
     box-shadow:  -300px 0px 150px 50px #000 inset, 300px 0px 150px 50px #000 inset;
 }
 
-.alert-toast{
-    min-width: 250px;
-    min-height: 115px;
-    margin: 1rem;
-}
-
 .login{
     -ms-flex-align: center;
     align-items: center;
@@ -48,6 +42,12 @@ a {
 .login-logo img{
     max-width: 80%;
     max-height: 80%;
+}
+
+.alert-toast{
+    min-width: 250px;
+    min-height: 115px;
+    margin: 1rem;
 }
 
 .dark-mode input:-webkit-autofill{
@@ -77,7 +77,14 @@ div.dt-container .dt-input{
     margin-top: 20px;
 }
 
-.
+#image-preview {
+    max-width: 200px;
+    max-height: 200px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 
 @media all and (max-width: 1200px) {
   .login-bg{

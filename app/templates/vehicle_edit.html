@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mt-4">
-  <form method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data" novalidate>
     {{ form.hidden_tag() }}
     <div class="row">
       <div class="col-6">
@@ -78,11 +78,19 @@
             <small class="text-danger">{{ error }}</small>
           {% endfor %}
         </div>
-          {{ form.image.label }} {{ form.image }}
+        <div>
+          <div>{{ form.image.label }}</div>
+          <img id="image-preview" src="data:;base64,{{ img_string }}" alt="Image preview" class="img-thumbnail mt-2" style="max-width: 100px;">
+          {{ form.image(class="form-control-file mt-3", id="image", onchange="previewImage(event)") }}
+        </div>
       </div>
     </div>
 
     <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
   </form>
 </div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/base.js') }}"></script>
 {% endblock %}

@@ -236,8 +236,14 @@ def vehicle_edit(id):
         flash('Create new vehicle successfully.', 'success')
         return redirect(url_for('dashboard.vehicles'))
 
+    img_bytes = vehicle.image  # bytes
+    if not img_bytes:
+        img_bytes = open(current_app.static_folder + "/images/car_img.png", 'rb').read()
+    img_string = base64.b64encode(img_bytes).decode("ascii")
+
     return render_template("vehicle_edit.html",
                            header_title="Vehicle edit",
+                           img_string=img_string,
                            form=form,
                            )
 

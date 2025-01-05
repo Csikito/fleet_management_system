@@ -7,7 +7,6 @@ $(document).ready(function() {
         columns: [
             { title: 'Vehicle image', data: 'image', render : function (data, type, row){
                 if(data){
-                   console.log(data)
                    let img = `<img src="data:image/jpeg;base64,${data}" class="img-circle elevation-2" style="width:50px; height:50px" alt="User Image">`
                    return img
                 }

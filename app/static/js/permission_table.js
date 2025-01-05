@@ -1,6 +1,15 @@
 $(document).ready(function() {
     $('#permissionsTable').DataTable({
-        dom: 'lrtip',
+        dom: '<"top d-flex justify-content-between"<"d-flex align-items-center"l><"ml-auto"B>>t<"bottom"p>',
+        buttons: [
+            {
+                text: 'New',
+                className: 'btn btn-primary',
+                action: function () {
+                    window.location.href = '/permission_edit/0';
+                }
+            }
+        ],
          ajax: {
             url: '/server_side_permission', // REST API végpont
         },

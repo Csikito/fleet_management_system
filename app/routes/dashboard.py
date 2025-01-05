@@ -50,7 +50,6 @@ def permission():
 
 
 @admin_page.route('/server_side_permission', methods=["GET"])
-@register_breadcrumbs(admin_page, ".permission", "Permission ")
 @permission_required(PermissionStatusCodes.PERMISSION)
 def server_side_permission():
     start = int(request.args.get('start', 0))
@@ -176,7 +175,7 @@ def user_edit(id):
 
 
 @admin_page.route('/vehicles', methods=["GET"])
-@register_breadcrumbs(admin_page, ".users", "Vehicles")
+@register_breadcrumbs(admin_page, ".vehicles", "Vehicles")
 @permission_required(PermissionStatusCodes.VEHICLES)
 def vehicles():
     return render_template("vehicle_table.html",

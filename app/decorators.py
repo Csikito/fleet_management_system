@@ -21,6 +21,11 @@ def register_breadcrumbs(blueprint, route_key, title, dynamic_callback=None):
 def get_breadcrumbs(blueprint_name):
     current_path = request.path
     crumbs = []
+    home_crumb = {
+        "title": "Home",
+        "url": url_for(f"{blueprint_name}.dashboard")
+    }
+    crumbs.append(home_crumb)
     for key, value in breadcrumbs.items():
         if value["url"] in current_path:
             crumb = value.copy()

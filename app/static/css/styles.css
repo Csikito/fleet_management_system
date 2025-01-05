@@ -69,12 +69,15 @@ a {
 }
 
 div.dt-container .dt-input{
+    margin-right:5px;
     background-color: #454d55;
 }
 
 .dt-paging {
     margin-top: 20px;
 }
+
+.
 
 @media all and (max-width: 1200px) {
   .login-bg{

@@ -4,7 +4,6 @@ $(document).ready(function() {
         buttons: [
             {
                 text: 'New',
-                className: 'btn btn-primary',
                 action: function () {
                     window.location.href = '/permission_edit/0';
                 }

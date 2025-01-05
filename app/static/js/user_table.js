@@ -1,7 +1,15 @@
 $(document).ready(function() {
     $('#userTable').DataTable({
-        dom: 'lrtip',
-         ajax: {
+        dom: '<"top d-flex justify-content-between"<"d-flex align-items-center"l><"ml-auto"B>>t<"bottom"p>',
+        buttons: [
+            {
+                text: 'New',
+                action: function () {
+                    window.location.href = '/user_edit/0';
+                }
+            }
+        ],
+        ajax: {
             url: '/server_side_user',
         },
         columns: [

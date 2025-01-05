@@ -2,103 +2,108 @@
 
 {% block content %}
 <div class="container mt-4">
-  <form method="post" enctype="multipart/form-data" novalidate>
-    {{ form.hidden_tag() }}
-    <div class="row">
-      <div class="col-6">
+    <div class="card card-outline card-main-yellow">
+        <!-- /.card-header -->
+      <div class="card-body">
+        <form method="post" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
         <div class="row">
           <div class="col-6">
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="type">{{ form.type.label }}</label>
+                  {{ form.type(class="form-control") }}
+                  {% for error in form.type.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="model">{{ form.model.label }}</label>
+                  {{ form.model(class="form-control") }}
+                  {% for error in form.model.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="year">{{ form.year.label }}</label>
+                  {{ form.year(class="form-control") }}
+                  {% for error in form.year.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="engine_type">{{ form.engine_type.label }}</label>
+                  {{ form.engine_type(class="form-control") }}
+                  {% for error in form.engine_type.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                 <div class="form-group">
+                  <label for="initial_mileage">{{ form.initial_mileage.label }}</label>
+                  {{ form.initial_mileage(class="form-control") }}
+                  {% for error in form.initial_mileage.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="current_mileage">{{ form.current_mileage.label }}</label>
+                  {{ form.current_mileage(class="form-control") }}
+                  {% for error in form.current_mileage.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
             <div class="form-group">
-              <label for="type">{{ form.type.label }}</label>
-              {{ form.type(class="form-control") }}
-              {% for error in form.type.errors %}
+              <label for="license_plate">{{ form.license_plate.label }}</label>
+              {{ form.license_plate(class="form-control") }}
+              {% for error in form.license_plate.errors %}
+                <small class="text-danger">{{ error }}</small>
+              {% endfor %}
+            </div>
+            <div class="form-group">
+              <label for="registration_expiry_date">{{ form.registration_expiry_date.label }}</label>
+              {{ form.registration_expiry_date(class="form-control") }}
+              {% for error in form.registration_expiry_date.errors %}
                 <small class="text-danger">{{ error }}</small>
               {% endfor %}
             </div>
           </div>
           <div class="col-6">
             <div class="form-group">
-              <label for="model">{{ form.model.label }}</label>
-              {{ form.model(class="form-control") }}
-              {% for error in form.model.errors %}
+              <label for="driver">{{ form.driver.label }}</label>
+              {{ form.driver(class="form-control") }}
+              {% for error in form.driver.errors %}
                 <small class="text-danger">{{ error }}</small>
               {% endfor %}
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              <label for="year">{{ form.year.label }}</label>
-              {{ form.year(class="form-control") }}
-              {% for error in form.year.errors %}
-                <small class="text-danger">{{ error }}</small>
-              {% endfor %}
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label for="engine_type">{{ form.engine_type.label }}</label>
-              {{ form.engine_type(class="form-control") }}
-              {% for error in form.engine_type.errors %}
-                <small class="text-danger">{{ error }}</small>
-              {% endfor %}
+            <div>
+              <div>{{ form.image.label }}</div>
+              <img id="image-preview" src="data:;base64,{{ img_string }}" alt="Image preview" class="img-thumbnail mt-2" style="max-width: 100px;">
+              {{ form.image(class="form-control-file mt-3", id="image", onchange="previewImage(event)") }}
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-6">
-             <div class="form-group">
-              <label for="initial_mileage">{{ form.initial_mileage.label }}</label>
-              {{ form.initial_mileage(class="form-control") }}
-              {% for error in form.initial_mileage.errors %}
-                <small class="text-danger">{{ error }}</small>
-              {% endfor %}
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label for="current_mileage">{{ form.current_mileage.label }}</label>
-              {{ form.current_mileage(class="form-control") }}
-              {% for error in form.current_mileage.errors %}
-                <small class="text-danger">{{ error }}</small>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="license_plate">{{ form.license_plate.label }}</label>
-          {{ form.license_plate(class="form-control") }}
-          {% for error in form.license_plate.errors %}
-            <small class="text-danger">{{ error }}</small>
-          {% endfor %}
-        </div>
-        <div class="form-group">
-          <label for="registration_expiry_date">{{ form.registration_expiry_date.label }}</label>
-          {{ form.registration_expiry_date(class="form-control") }}
-          {% for error in form.registration_expiry_date.errors %}
-            <small class="text-danger">{{ error }}</small>
-          {% endfor %}
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="form-group">
-          <label for="driver">{{ form.driver.label }}</label>
-          {{ form.driver(class="form-control") }}
-          {% for error in form.driver.errors %}
-            <small class="text-danger">{{ error }}</small>
-          {% endfor %}
-        </div>
-        <div>
-          <div>{{ form.image.label }}</div>
-          <img id="image-preview" src="data:;base64,{{ img_string }}" alt="Image preview" class="img-thumbnail mt-2" style="max-width: 100px;">
-          {{ form.image(class="form-control-file mt-3", id="image", onchange="previewImage(event)") }}
-        </div>
-      </div>
-    </div>
 
-    <button type="submit" class="btn btn-success">{{ form.submit.label.text }}</button>
-  </form>
+        <button type="submit" class="btn btn-success">{{ form.submit.label.text }}</button>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock %}
 

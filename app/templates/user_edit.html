@@ -2,97 +2,102 @@
 
 {% block content %}
 <div class="container mt-4">
-  <form method="post" enctype="multipart/form-data" novalidate>
-    {{ form.hidden_tag() }}
-    <div class="row">
-      <div class="col-6">
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              <label for="first_name">{{ form.first_name.label }}</label>
-              {{ form.first_name(class="form-control") }}
-              {% for error in form.first_name.errors %}
-                <small class="text-danger">{{ error }}</small>
-              {% endfor %}
+    <div class="card card-outline card-main-yellow">
+    <!-- /.card-header -->
+      <div class="card-body">
+        <form method="post" enctype="multipart/form-data" novalidate>
+          {{ form.hidden_tag() }}
+          <div class="row">
+            <div class="col-6">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="first_name">{{ form.first_name.label }}</label>
+                    {{ form.first_name(class="form-control") }}
+                    {% for error in form.first_name.errors %}
+                      <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="last_name">{{ form.last_name.label }}</label>
+                    {{ form.last_name(class="form-control") }}
+                    {% for error in form.last_name.errors %}
+                      <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email">{{ form.email.label }}</label>
+                {{ form.email(class="form-control") }}
+                {% for error in form.email.errors %}
+                  <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+              </div>
+              <div class="form-group">
+                <label for="phone">{{ form.phone.label }}</label>
+                {{ form.phone(class="form-control") }}
+                {% for error in form.phone.errors %}
+                  <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="permission">{{ form.permission.label }}</label>
+                    {{ form.permission(class="form-control") }}
+                    {% for error in form.permission.errors %}
+                      <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="col-6 d-flex justify-content-center align-items-center">
+                  <div class="custom-control custom-checkbox">
+                    {{ form.active(class="custom-control-input", type="checkbox") }}
+                    <label class="custom-control-label" for="active" role="button">{{ form.active.label }}</label>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label for="last_name">{{ form.last_name.label }}</label>
-              {{ form.last_name(class="form-control") }}
-              {% for error in form.last_name.errors %}
-                <small class="text-danger">{{ error }}</small>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="email">{{ form.email.label }}</label>
-          {{ form.email(class="form-control") }}
-          {% for error in form.email.errors %}
-            <small class="text-danger">{{ error }}</small>
-          {% endfor %}
-        </div>
-        <div class="form-group">
-          <label for="phone">{{ form.phone.label }}</label>
-          {{ form.phone(class="form-control") }}
-          {% for error in form.phone.errors %}
-            <small class="text-danger">{{ error }}</small>
-          {% endfor %}
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              <label for="permission">{{ form.permission.label }}</label>
-              {{ form.permission(class="form-control") }}
-              {% for error in form.permission.errors %}
-                <small class="text-danger">{{ error }}</small>
-              {% endfor %}
-            </div>
-          </div>
-          <div class="col-6 d-flex justify-content-center align-items-center">
-            <div class="custom-control custom-checkbox">
-              {{ form.active(class="custom-control-input", type="checkbox") }}
-              <label class="custom-control-label" for="active" role="button">{{ form.active.label }}</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="form-group">
-          <label for="username">{{ form.username.label }}</label>
-          {{ form.username(class="form-control") }}
-          {% for error in form.username.errors %}
-            <small class="text-danger">{{ error }}</small>
-          {% endfor %}
-        </div>
-        {% if form.password %}
-          <div class="form-group">
-            <label for="password">{{ form.password.label }}</label>
-            {{ form.password(class="form-control") }}
-            {% for error in form.password.errors %}
-              <small class="text-danger">{{ error }}</small>
-            {% endfor %}
-          </div>
-          <div class="form-group">
-            <label for="repeat_password">{{ form.repeat_password.label }}</label>
-            {{ form.repeat_password(class="form-control") }}
-            {% for error in form.repeat_password.errors %}
-              <small class="text-danger">{{ error }}</small>
-            {% endfor %}
-          </div>
-        {% endif %}
-        <div>
-          <div>{{ form.image.label }}</div>
-          <img id="image-preview" src="data:;base64,{{ img_string }}" alt="Image preview" class="img-thumbnail mt-2" style="max-width: 100px;">
-          {{ form.image(class="form-control-file mt-3", id="image", onchange="previewImage(event)") }}
-        </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="username">{{ form.username.label }}</label>
+                {{ form.username(class="form-control") }}
+                {% for error in form.username.errors %}
+                  <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+              </div>
+              {% if form.password %}
+                <div class="form-group">
+                  <label for="password">{{ form.password.label }}</label>
+                  {{ form.password(class="form-control") }}
+                  {% for error in form.password.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                  {% endfor %}
+                </div>
+                <div class="form-group">
+                  <label for="repeat_password">{{ form.repeat_password.label }}</label>
+                  {{ form.repeat_password(class="form-control") }}
+                  {% for error in form.repeat_password.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              <div>
+                <div>{{ form.image.label }}</div>
+                <img id="image-preview" src="data:;base64,{{ img_string }}" alt="Image preview" class="img-thumbnail mt-2" style="max-width: 100px;">
+                {{ form.image(class="form-control-file mt-3", id="image", onchange="previewImage(event)") }}
+              </div>
 
-      </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success">{{ form.submit.label.text }}</button>
+        </form>
     </div>
-
-    <button type="submit" class="btn btn-success">{{ form.submit.label.text }}</button>
-  </form>
+  </div>
 </div>
 {% endblock %}
 

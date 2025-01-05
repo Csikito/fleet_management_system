@@ -15,7 +15,7 @@ $(document).ready(function() {
         columns: [
             { title: 'Photo', data: 'image', render : function (data, type, row){
                 if(data){
-                   let img = `<img src="data:image/jpeg;base64,${data}" class="img-circle elevation-2" style="width:25px; height:25px" alt="User Image">`
+                   let img = `<img src="data:;base64,${data}" class="img-circle elevation-2" style="width:25px; height:25px" alt="User Image">`
                    return img
                 }
                 else{

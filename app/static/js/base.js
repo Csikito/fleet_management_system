@@ -19,6 +19,7 @@ const setActiveSidebarItem = () => {
     $('.nav-sidebar .nav-link').removeClass('active');
     let active_item = $(`a[href="${this.location.pathname}"]`);
     active_item.addClass('active')
+    active_item.css({'background-color':'#F6F016', 'color':'#343A40'})
 
     $('.nav-item').removeClass('menu-open');
     active_item.parent().parent().parent().addClass('menu-open')

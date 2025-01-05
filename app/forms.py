@@ -3,7 +3,7 @@ from wtforms import (StringField, PasswordField, SubmitField, SelectField, Integ
                      BooleanField)
 from flask_wtf.file import FileField, FileAllowed
 from wtforms.fields import DateField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length
 
 from .util import (get_permission_status_name, get_vehicle_type_status_name, get_vehicle_model_status_name,
                    get_user_id_name)
@@ -18,7 +18,8 @@ class LoginForm(FlaskForm):
 
 
 class PermissionForm(FlaskForm):
-    name = StringField('Username', validators=[DataRequired(message='The username field is required')])
+    name = StringField('Permission name', validators=[DataRequired(message='The permission name field is required'),
+                       Length(min=3, max=200, message='Username must be in 3 to 200 characters')])
     submit = SubmitField('Save')
 
     def __init__(self, *args, **kwargs):

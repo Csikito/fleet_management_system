@@ -1,10 +1,15 @@
+:root {
+  --main-bg-yellow: #F6F016;
+  --main-color-yellow: #F6F016;;
+}
+
 body{
     background-color:#444;
     color:#000
 }
 
 a {
-    color: #F6F016;
+    color: var(--main-color-yellow);
 }
 
 .login-bg{
@@ -51,6 +56,16 @@ a {
 
 .dark-mode input:-webkit-autofill:hover{
     -webkit-text-fill-color: #000; !important
+}
+
+.card-main-yellow.card-outline {
+    border-top: 3px solid var(--main-bg-yellow);
+}
+
+.custom-control-input:checked~.custom-control-label::before{
+    border-color:var(--main-color-yellow);
+    background-color:var(--main-bg-yellow);
+    opacity:0.8;
 }
 
 

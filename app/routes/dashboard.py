@@ -8,6 +8,7 @@ from ..decorators import register_breadcrumbs, permission_required, get_breadcru
 from ..models import User, Permission, PermissionStatusCodes, Vehicle
 from ..forms import PermissionForm, NewUserForm, EditUserForm, VehicleForm
 from ..util import get_vehicle_type_status_name, get_vehicle_model_status_name
+from ..reports import export_csv, export_pdf, export_xlsx
 
 
 admin_page = Blueprint("dashboard", __name__)
@@ -32,7 +33,7 @@ def dashboard():
         .first()
     data= { "users": User.query.count(),
             "vehicles": Vehicle.query.count(),
-            "upcoming_operation": closest_vehicle.registration_expiry_date or "-"
+            "upcoming_operation": closest_vehicle.registration_expiry_date if closest_vehicle else "-"
             }
     return render_template("dashboard.html",
                            data = data,
@@ -249,3 +250,25 @@ def vehicle_edit(id):
 @admin_page.route('/support', methods=["GET"])
 def support():
     return render_template("support.html")
+
+
+@admin_page.route('/vehicle_report', methods=["GET"])
+@permission_required(PermissionStatusCodes.VEHICLES)
+def vehicle_report():
+    report_format = request.args.get('format', '')
+    if report_format:
+        vehicles = Vehicle.query.all()
+        if not vehicles:
+            return jsonify("No data to export!"), 400
+
+        # check format
+        if report_format == 'csv':
+            return export_csv(vehicles)
+        elif report_format == 'xlsx':
+            return export_xlsx(vehicles)
+        elif report_format == 'pdf':
+            return export_pdf(vehicles)
+        else:
+            return jsonify("Incorrect format!"), 400
+
+    return render_template("vehicle_report.html")

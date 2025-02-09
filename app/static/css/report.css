@@ -1,0 +1,18 @@
+.report-container {
+    margin: 50px auto;
+    padding: 20px;
+    max-width: 500px;
+    border: 1px solid #F6F016;
+    border-radius: 8px;
+    background-color: #343a40;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.report-container h1 {
+    font-size: 1.8rem;
+    color: #F6F016;
+}
+
+.report-container p {
+    font-size: 1.2rem;
+}

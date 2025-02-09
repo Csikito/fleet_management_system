@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% block style %} <link rel="stylesheet" href="{{ url_for('static', filename='css/report.css') }}"> {% endblock %}
+<div class="report-container text-center">
+    <h2>Vehicle report </h2>
+    <p>Please select the appropriate report format.</p>
+    <div class="export-buttons mt-5 d-flex justify-content-around">
+        <button class="btn btn-danger export-btn" data-format="pdf">
+            <span class="button-text" title="Export to PDF"><i class="fa fa-file-pdf"></i></span>
+            <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+        </button>
+        <button class="btn btn-success export-btn" data-format="xlsx">
+            <span class="button-text" title="Export to Excel"><i class="fa fa-file-excel"></i></span>
+            <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+        </button>
+        <button class="btn btn-primary export-btn" data-format="csv">
+            <span class="button-text" title="Export to CSV"><i class="fa fa-file-csv"></i></span>
+            <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+        </button>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/vehicle_report.js') }}"></script>
+{% endblock %}

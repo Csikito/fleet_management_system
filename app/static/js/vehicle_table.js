@@ -1,5 +1,8 @@
 $(document).ready(function() {
     $('#vehicleTable').DataTable({
+        serverSide: true,
+        processing: true,
+        order:[[1, "asc"]],
         dom: '<"top d-flex justify-content-between"<"d-flex align-items-center"l><"ml-auto"B>>t<"bottom"p>',
         buttons: [
             {
@@ -11,6 +14,24 @@ $(document).ready(function() {
         ],
          ajax: {
             url: '/server_side_vehicle',
+            type: 'GET',
+             data: function(d) {
+                let order_column = 1;
+                let order_dir = 'asc';
+
+                if (d.order && d.order.length > 0) {
+                    order_column = d.order[0].column;
+                    order_dir = d.order[0].dir;
+                }
+
+                return {
+                    start: d.start || 0,
+                    length: d.length || 10,
+                    draw: d.draw || 1,
+                    order_column: order_column,
+                    order_dir: order_dir
+                };
+            }
         },
         columns: [
             { title: 'Vehicle image', data: 'image', render : function (data, type, row){
@@ -26,6 +47,7 @@ $(document).ready(function() {
                 return `<a href="/vehicle_edit/${row.id}">${data}</a>`
             }},
             { title: 'Manufacturer/Model', data: 'model' },
+            { title: 'Licence Plate', data: 'plate' },
             { title: 'Driver', data: 'driver' }
         ]
     });

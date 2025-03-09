@@ -55,13 +55,26 @@ def permission():
 def server_side_permission():
     start = int(request.args.get('start', 0))
     length = int(request.args.get('length', 10))
+    draw = int(request.args.get('draw', 1))
+    order_column_index = int(request.args.get('order_column', 1))
+    order_dir = request.args.get('order_dir', 'asc')
 
-    query = Permission.query.offset(start).limit(length)
+    column_map = {
+        0: Permission.id,
+        1: Permission.name,
+        2: Permission.permissions,
+    }
+
+    order_column = column_map.get(order_column_index, Permission.id)
+    if order_dir == 'desc':
+        order_column = order_column.desc()
+
+    query = Permission.query.order_by(order_column).offset(start).limit(length)
     total_records = Permission.query.count()
 
     data = [{"id": perm.id, "name": perm.name, "permissions": perm.get_processed_permissions()} for perm in query]
     return jsonify({
-        "draw": request.args.get('draw', 1),
+        "draw": draw,
         "recordsTotal": total_records,
         "recordsFiltered": total_records,
         "data": data
@@ -121,14 +134,26 @@ def users():
 def server_side_user():
     start = int(request.args.get('start', 0))
     length = int(request.args.get('length', 10))
+    draw = int(request.args.get('draw', 1))
+    order_column_index = int(request.args.get('order_column', 1))
+    order_dir = request.args.get('order_dir', 'asc')
 
-    query = User.query.offset(start).limit(length)
+    column_map = {
+        1: User.first_name,
+        2: User.username,
+        3: User.permissions,
+    }
+    order_column = column_map.get(order_column_index, User.first_name)
+    if order_dir == 'desc':
+        order_column = order_column.desc()
+
+    query = User.query.order_by(order_column).offset(start).limit(length)
     total_records = User.query.count()
 
     data = [{"id":user.id, "image":base64.b64encode(user.image).decode('utf-8') if user.image else None,
              "name": f"{user.first_name} {user.last_name}", "username": user.username, "permission": user.permissions.name} for user in query]
     return jsonify({
-        "draw": request.args.get('draw', 1),
+        "draw": draw,
         "recordsTotal": total_records,
         "recordsFiltered": total_records,
         "data": data
@@ -189,18 +214,33 @@ def vehicles():
 def server_side_vehicle():
     start = int(request.args.get('start', 0))
     length = int(request.args.get('length', 10))
+    draw = int(request.args.get('draw', 1))
+    order_column_index = int(request.args.get('order_column', 1))
+    order_dir = request.args.get('order_dir', 'asc')
 
-    query = Vehicle.query.offset(start).limit(length)
+    column_map = {
+        1: Vehicle.type,
+        2: Vehicle.model,
+        3: Vehicle.license_plate,
+        4: Vehicle.driver
+    }
+
+    order_column = column_map.get(order_column_index, Vehicle.type)
+    if order_dir == 'desc':
+        order_column = order_column.desc()
+
+    query = Vehicle.query.order_by(order_column).offset(start).limit(length)
     total_records = Vehicle.query.count()
 
     data = [{"id":vehicle.id,
              "image":base64.b64encode(vehicle.image).decode('utf-8') if vehicle.image else None,
              "type": get_vehicle_type_status_name(True).get(vehicle.type, "-"),
              "model": get_vehicle_model_status_name(True).get(vehicle.model, "-"),
+             "plate": vehicle.license_plate,
              "driver": f"{vehicle.user.first_name} {vehicle.user.last_name}" if vehicle.driver else "-"}
             for vehicle in query]
     return jsonify({
-        "draw": request.args.get('draw', 1),
+        "draw": draw,
         "recordsTotal": total_records,
         "recordsFiltered": total_records,
         "data": data

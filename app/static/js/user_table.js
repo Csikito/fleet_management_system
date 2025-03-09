@@ -1,6 +1,9 @@
 $(document).ready(function() {
     $('#userTable').DataTable({
         dom: '<"top d-flex justify-content-between"<"d-flex align-items-center"l><"ml-auto"B>>t<"bottom"p>',
+        serverSide: true,
+        processing: true,
+        order:[[1, "asc"]],
         buttons: [
             {
                 text: 'New',
@@ -11,6 +14,24 @@ $(document).ready(function() {
         ],
         ajax: {
             url: '/server_side_user',
+            type: 'GET',
+             data: function(d) {
+                let order_column = 1;
+                let order_dir = 'asc';
+
+                if (d.order && d.order.length > 0) {
+                    order_column = d.order[0].column;
+                    order_dir = d.order[0].dir;
+                }
+
+                return {
+                    start: d.start || 0,
+                    length: d.length || 10,
+                    draw: d.draw || 1,
+                    order_column: order_column,
+                    order_dir: order_dir
+                };
+             }
         },
         columns: [
             { title: 'Photo', data: 'image', render : function (data, type, row){

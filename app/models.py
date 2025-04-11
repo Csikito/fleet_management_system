@@ -1,4 +1,5 @@
 import json
+import datetime
 from enum import unique
 
 from flask_login import UserMixin, current_user
@@ -23,6 +24,7 @@ class PermissionStatusCodes:
     FINANCIAL_REPORT = 4
     VEHICLE_REPORT = 5
     MILEAGE_REPORT = 6
+    TRANSPORT = 7
 
 
 class Permission(db.Model, MyDbModel):
@@ -86,4 +88,22 @@ class Vehicle(db.Model, MyDbModel):
     driver = db.Column(db.Integer(), db.ForeignKey(User.id), nullable=True)
     user = db.relationship(User, foreign_keys=[driver])
 
+
+class Cargo:
+    GRAIN = 1
+    IRON = 2
+    OTHER = 3
+
+
+class Transport(db.Model, MyDbModel):
+    id = db.Column(db.Integer, primary_key=True)
+    origin = db.Column(db.String(100), nullable=False)
+    destination = db.Column(db.String(100), nullable=False)
+    distance = db.Column(db.Integer, nullable=True)
+    cargo = db.Column(db.Integer, nullable=True)
+    amount = db.Column(db.Float, nullable=False)
+    unit_price = db.Column(db.Float, nullable=False)
+    date = db.Column(db.Date, default=datetime.date.today)
+    delivered_by = db.Column(db.Integer(), db.ForeignKey(User.id), nullable=True)
+    user = db.relationship(User, foreign_keys=[delivered_by])
 

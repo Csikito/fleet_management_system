@@ -5,9 +5,9 @@ import datetime
 from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify, current_app
 from flask_login import current_user, login_required
 from ..decorators import register_breadcrumbs, permission_required, get_breadcrumbs, permission_required
-from ..models import User, Permission, PermissionStatusCodes, Vehicle
-from ..forms import PermissionForm, NewUserForm, EditUserForm, VehicleForm
-from ..util import get_vehicle_type_status_name, get_vehicle_model_status_name
+from ..models import User, Permission, PermissionStatusCodes, Vehicle, Transport
+from ..forms import PermissionForm, NewUserForm, EditUserForm, VehicleForm, TransportForm
+from ..util import get_vehicle_type_status_name, get_vehicle_model_status_name, get_transport_cargo_name
 from ..reports import export_csv, export_pdf, export_xlsx
 
 
@@ -312,3 +312,82 @@ def vehicle_report():
             return jsonify("Incorrect format!"), 400
 
     return render_template("vehicle_report.html")
+
+@admin_page.route('/transport', methods=["GET"])
+@register_breadcrumbs(admin_page, ".transport", "Transport")
+@permission_required(PermissionStatusCodes.TRANSPORT)
+def transport():
+    return render_template("transport_table.html",
+                           header_title="Transport"
+                           )
+
+@admin_page.route('/server_side_transport', methods=["GET"])
+@permission_required(PermissionStatusCodes.TRANSPORT)
+def server_side_transport():
+    start = int(request.args.get('start', 0))
+    length = int(request.args.get('length', 10))
+    draw = int(request.args.get('draw', 1))
+    order_column_index = int(request.args.get('order_column', 0))
+    order_dir = request.args.get('order_dir', 'asc')
+
+    column_map = {
+        1: Transport.date,
+        2: Transport.delivered_by,
+        3: Transport.origin,
+        4: Transport.destination,
+        5: Transport.cargo,
+        6: Transport.amount
+    }
+
+    order_column = column_map.get(order_column_index, Transport.date)
+    if order_dir == 'desc':
+        order_column = order_column.desc()
+
+    query = Transport.query.order_by(order_column).offset(start).limit(length)
+    total_records = Transport.query.count()
+
+    data = [{"id":transport.id,
+             "date": transport.date.strftime('%Y.%m.%d') if transport.date else "",
+             "delivered_by": f"{transport.user.first_name} {transport.user.last_name}" if transport.delivered_by else "-",
+             "origin": transport.origin,
+             "destination": transport.destination,
+             "cargo": get_transport_cargo_name(True).get(transport.cargo, "-"),
+             "amount": transport.amount,
+             "total_fee": transport.amount * transport.unit_price or "-"}
+            for transport in query]
+    return jsonify({
+        "draw": draw,
+        "recordsTotal": total_records,
+        "recordsFiltered": total_records,
+        "data": data
+    })
+
+
+@admin_page.route('/transport_edit/<int:id>', methods=["GET", "POST"])
+@register_breadcrumbs(admin_page, ".transport_edit.id", "Transport edit")
+def transport_edit(id):
+    if id == 0:
+        transport = Transport()
+        form = TransportForm()
+    else:
+        transport = Transport.query.get_or_404(id)
+        form = TransportForm(obj=transport)
+
+    if request.method == "POST" and form.validate_on_submit():
+        transport.delivered_by = form.delivered_by.data
+        transport.origin = form.origin.data
+        transport.destination = form.destination.data
+        transport.distance = form.distance.data
+        transport.cargo = form.cargo.data
+        transport.amount = form.amount.data
+        transport.unit_price = form.unit_price.data
+        transport.date = form.date.data
+        transport.save()
+
+        flash('Create new transport successfully.', 'success')
+        return redirect(url_for('dashboard.transport'))
+
+    return render_template("transport_edit.html",
+                           header_title="Transport edit",
+                           form=form,
+                           )

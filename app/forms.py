@@ -1,13 +1,13 @@
 import re
 from flask_wtf import FlaskForm
 from wtforms import (StringField, PasswordField, SubmitField, SelectField, IntegerField, TextAreaField, HiddenField,
-                     BooleanField)
+                     BooleanField, FloatField)
 from flask_wtf.file import FileField, FileAllowed
 from wtforms.fields import DateField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
 
 from .util import (get_permission_status_name, get_vehicle_type_status_name, get_vehicle_model_status_name,
-                   get_user_id_name)
+                   get_user_id_name, get_transport_cargo_name)
 from .models import Permission
 
 
@@ -97,5 +97,18 @@ class VehicleForm(FlaskForm):
                                                   format='%Y-%m-%d',
                                                   validators=[DataRequired(message='The registration expiry date field is required')])
     driver = SelectField("Driver", choices=get_user_id_name())
+
+    submit = SubmitField('Save')
+
+
+class TransportForm(FlaskForm):
+    delivered_by = SelectField("Delivered by", choices=get_user_id_name())
+    origin = StringField('Origin', validators=[DataRequired(message='The origin field is required')])
+    destination = StringField('Destination', validators=[DataRequired(message='The destination field is required')])
+    distance = IntegerField('Distance (km)')
+    cargo = SelectField("Cargo", choices=get_transport_cargo_name())
+    amount = FloatField('Weight of the shipment (kg)', validators=[DataRequired(message='The weight of the shipment field is required')])
+    unit_price = FloatField('Unit price', validators=[DataRequired(message='The unit price field is required')])
+    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired(message='The date field is required')])
 
     submit = SubmitField('Save')

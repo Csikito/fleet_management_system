@@ -26,6 +26,7 @@ def get_permission_status_name(to_dict=False):
         (PermissionStatusCodes.FINANCIAL_REPORT ,"Financial report"),
         (PermissionStatusCodes.VEHICLE_REPORT ,"Vehicle report"),
         (PermissionStatusCodes.MILEAGE_REPORT ,"Mileage report"),
+        (PermissionStatusCodes.TRANSPORT, "Transport"),
     ]
     if to_dict:
         return dict(status_name)
@@ -64,3 +65,13 @@ def get_user_id_name(to_dict=False):
         return dict(user_list)
     return user_list
 
+def get_transport_cargo_name(to_dict=False):
+    from .models import Cargo
+    status_name = [
+        (Cargo.GRAIN ,"Grain"),
+        (Cargo.IRON ,"Iron"),
+        (Cargo.OTHER ,"Other products")
+    ]
+    if to_dict:
+        return dict(status_name)
+    return status_name

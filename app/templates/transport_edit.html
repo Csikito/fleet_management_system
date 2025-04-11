@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card card-outline card-main-yellow">
+        <!-- /.card-header -->
+      <div class="card-body">
+        <form method="post" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="row">
+          <div class="col-sm">
+            <div class="form-group">
+              <label for="delivered_by">{{ form.delivered_by.label }}</label>
+              {{ form.delivered_by(class="form-control") }}
+              {% for error in form.delivered_by.errors %}
+                <small class="text-danger">{{ error }}</small>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="form-group">
+              <label for="cargo">{{ form.cargo.label }}</label>
+              {{ form.cargo(class="form-control") }}
+              {% for error in form.cargo.errors %}
+                <small class="text-danger">{{ error }}</small>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <div class="form-group">
+              <label for="origin">{{ form.origin.label }}</label>
+              {{ form.origin(class="form-control") }}
+              {% for error in form.origin.errors %}
+                <small class="text-danger">{{ error }}</small>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="form-group">
+              <label for="destination">{{ form.destination.label }}</label>
+              {{ form.destination(class="form-control") }}
+              {% for error in form.destination.errors %}
+                <small class="text-danger">{{ error }}</small>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <div class="form-group">
+              <label for="distance">{{ form.distance.label }}</label>
+              {{ form.distance(class="form-control") }}
+              {% for error in form.distance.errors %}
+                <small class="text-danger">{{ error }}</small>
+              {% endfor %}
+            </div>
+          </div>
+           <div class="col-sm">
+             <div class="form-group">
+              <label class="text-nowrap" for="amount">{{ form.amount.label }}</label>
+              {{ form.amount(class="form-control") }}
+              {% for error in form.amount.errors %}
+                <small class="text-danger">{{ error }}</small>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="form-group">
+              <label for="unit_price">{{ form.unit_price.label }}</label>
+              {{ form.unit_price(class="form-control") }}
+              {% for error in form.unit_price.errors %}
+                <small class="text-danger">{{ error }}</small>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="date">{{ form.date.label }}</label>
+          {{ form.date(class="form-control") }}
+          {% for error in form.date.errors %}
+            <small class="text-danger">{{ error }}</small>
+          {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-success">{{ form.submit.label.text }}</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/base.js') }}"></script>
+{% endblock %}

@@ -91,3 +91,7 @@ div.dt-container .dt-input{
     box-shadow: none;
   }
 }
+
+input{
+    color-scheme:dark;
+}

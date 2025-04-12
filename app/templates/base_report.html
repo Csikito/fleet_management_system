@@ -4,7 +4,7 @@
 
 {% block style %} <link rel="stylesheet" href="{{ url_for('static', filename='css/report.css') }}"> {% endblock %}
 <div class="report-container text-center">
-    <h2>Vehicle report </h2>
+    <h2> {{ title }} </h2>
     <p>Please select the appropriate report format.</p>
     <div class="export-buttons mt-5 d-flex justify-content-around">
         <button class="btn btn-danger export-btn" data-format="pdf">
@@ -28,5 +28,5 @@
 {% endblock %}
 
 {% block script %}
-<script src="{{ url_for('static', filename='js/vehicle_report.js') }}"></script>
+<script src="{{ url_for('static', filename='js/base_report.js') }}"></script>
 {% endblock %}

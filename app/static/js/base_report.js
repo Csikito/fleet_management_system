@@ -10,7 +10,7 @@ $(document).ready(function() {
         spinner.removeClass("d-none");
 
         $.ajax({
-            url: `/vehicle_report?format=${format}`,
+            url: `${$(location).attr("pathname")}?format=${format}`,
             method: "GET",
             xhrFields: {
                 responseType: "blob"  // Expect a file
@@ -20,7 +20,7 @@ $(document).ready(function() {
                 let url = window.URL.createObjectURL(blob);
                 let a = $("<a>")
                     .attr("href", url)
-                    .attr("download", `vehicle_report.${format}`)
+                    .attr("download", `${$(location).attr("pathname")}.${format}`)
                     .appendTo("body");
                 a[0].click();
                 window.URL.revokeObjectURL(url);

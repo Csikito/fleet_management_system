@@ -2,31 +2,21 @@ import csv
 from io import BytesIO, StringIO
 
 from flask import send_file
-
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill
-from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 
-from .util import get_vehicle_type_status_name, get_vehicle_model_status_name
 
-
-
-def export_csv(vehicles):
+def generate_csv(data_rows, headers, filename ="export.csv"):
     output = StringIO()
     writer = csv.writer(output)
+    writer.writerow(headers)
 
-    # Header
-    writer.writerow(["ID", "License Plate", "Model", "Year", "Engine Type", "Registration Expiry Date"])
-
-    # Data
-    for v in vehicles:
-        engine_type = get_vehicle_type_status_name(True).get(v.type, "-"),
-        model = get_vehicle_model_status_name(True).get(v.model, "-"),
-
-        writer.writerow([v.id, v.license_plate, model, v.year, engine_type, v.registration_expiry_date])
+    for row in data_rows:
+        writer.writerow(row)
 
     # StringIO to bytes
     output_bytes = BytesIO(output.getvalue().encode("utf-8"))
@@ -36,18 +26,15 @@ def export_csv(vehicles):
         output_bytes,
         mimetype="text/csv",
         as_attachment=True,
-        download_name=f"vehicle_report.csv"
+        download_name=filename
     )
 
 
-def export_xlsx(vehicles):
+def generate_xlsx(data_rows, headers, filename="export.xlsx", sheet_title="Export"):
     output = BytesIO()
     wb = Workbook()
     ws = wb.active
-    ws.title = "Vehicle Report"
-
-    # Define column headers
-    headers = ["Type", "Model", "Year", "License Plate", "Mileage", "Reg. Expiry"]
+    ws.title = sheet_title
     ws.append(headers)
 
     # Apply styles to header row
@@ -62,12 +49,7 @@ def export_xlsx(vehicles):
         cell.alignment = center_alignment
 
     # Populate the Excel sheet with vehicle data
-    for i, v in enumerate(vehicles, start=2):  # Start from row 2 (row 1 is the header)
-        vehicles_type = get_vehicle_type_status_name(True).get(v.type, "-")
-        model = get_vehicle_model_status_name(True).get(v.model, "-")
-        registration_expiry_date = str(v.registration_expiry_date).replace("-", ".")
-
-        row = [vehicles_type, model, v.year, v.license_plate, v.current_mileage, registration_expiry_date]
+    for i, row in enumerate(data_rows, start=2):  # Start from row 2 (row 1 is the header)
         ws.append(row)
 
         # Apply alternating row color (light gray for even rows)
@@ -92,10 +74,10 @@ def export_xlsx(vehicles):
     output.seek(0)
 
     return send_file(output, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                     as_attachment=True, download_name=f"vehicle_report.xlsx")
+                     as_attachment=True,  download_name=filename)
 
 
-def export_pdf(vehicles):
+def generate_pdf(data_rows, headers, title="Export PDF", filename="export.pdf"):
     output = BytesIO()
     doc = SimpleDocTemplate(output, pagesize=A4)
 
@@ -110,21 +92,15 @@ def export_pdf(vehicles):
     )
 
     # ADD TITLE
-    title = Paragraph("Vehicle Report", title_style)
+    # Spacer = empty space between title and table
+    elements = [Paragraph(title, title_style), Spacer(1, 20)]
 
     # TABLE HEADER
-    data = [
-        ["Type", "Model", "Year", "License Plate", "Mileage", "Reg. Expiry"]
-    ]
+    data = [headers] + data_rows
 
     # ADD DATA (every second row will have a light gray background)
-    for i, v in enumerate(vehicles, start=1):
-        vehicles_type = get_vehicle_type_status_name(True).get(v.type, "-")
-        model = get_vehicle_model_status_name(True).get(v.model, "-")
-        registration_expiry_date = str(v.registration_expiry_date).replace("-", ".")
-
-        row = [vehicles_type, model, v.year, v.license_plate, v.current_mileage, registration_expiry_date]
-        data.append(row)
+    for i, row in enumerate(data_rows, start=1):
+       data.append(row)
 
     # CREATE TABLE
     table = Table(data, colWidths=[80, 100, 50, 100, 80, 80])
@@ -148,12 +124,11 @@ def export_pdf(vehicles):
         if i % 2 == 0:
             style.add('BACKGROUND', (0, i), (-1, i), colors.lightgrey)
 
-    table.setStyle(style)
-
     # BUILD DOCUMENT STRUCTURE
-    elements = [title, Spacer(1, 20), table]  # Spacer = empty space between title and table
+    table.setStyle(style)
+    elements.append(table)
     doc.build(elements)
 
     output.seek(0)
     return send_file(output, mimetype="application/pdf", as_attachment=True,
-                     download_name=f"vehicle_report.pdf")
+                     download_name=filename)

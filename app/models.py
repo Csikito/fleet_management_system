@@ -21,10 +21,9 @@ class PermissionStatusCodes:
     USERS = 1
     PERMISSION = 2
     VEHICLES = 3
-    FINANCIAL_REPORT = 4
+    TRANSPORT = 4
     VEHICLE_REPORT = 5
-    MILEAGE_REPORT = 6
-    TRANSPORT = 7
+    TRANSPORT_REPORT = 6
 
 
 class Permission(db.Model, MyDbModel):

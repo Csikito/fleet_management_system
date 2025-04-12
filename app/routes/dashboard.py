@@ -8,7 +8,8 @@ from ..decorators import register_breadcrumbs, permission_required, get_breadcru
 from ..models import User, Permission, PermissionStatusCodes, Vehicle, Transport
 from ..forms import PermissionForm, NewUserForm, EditUserForm, VehicleForm, TransportForm
 from ..util import get_vehicle_type_status_name, get_vehicle_model_status_name, get_transport_cargo_name
-from ..reports import export_csv, export_pdf, export_xlsx
+from ..vehicle_report import VehicleReport
+from ..transport_report import TransportReport
 
 
 admin_page = Blueprint("dashboard", __name__)
@@ -301,17 +302,11 @@ def vehicle_report():
         if not vehicles:
             return jsonify("No data to export!"), 400
 
-        # check format
-        if report_format == 'csv':
-            return export_csv(vehicles)
-        elif report_format == 'xlsx':
-            return export_xlsx(vehicles)
-        elif report_format == 'pdf':
-            return export_pdf(vehicles)
-        else:
-            return jsonify("Incorrect format!"), 400
+        report = VehicleReport(vehicles)
+        return report.export(report_format)
 
-    return render_template("vehicle_report.html")
+    return render_template("base_report.html",
+                           title="Vehicle report")
 
 @admin_page.route('/transport', methods=["GET"])
 @register_breadcrumbs(admin_page, ".transport", "Transport")
@@ -390,4 +385,20 @@ def transport_edit(id):
     return render_template("transport_edit.html",
                            header_title="Transport edit",
                            form=form,
+                           )
+
+@admin_page.route('/transport_report', methods=["GET"])
+@permission_required(PermissionStatusCodes.TRANSPORT_REPORT)
+def transport_report():
+    report_format = request.args.get('format', '')
+    if report_format:
+        transport = Transport.query.all()
+        if not transport:
+            return jsonify("No data to export!"), 400
+
+        report = TransportReport(transport)
+        return report.export(report_format)
+
+    return render_template("base_report.html",
+                           title="Transport report"
                            )

@@ -23,10 +23,9 @@ def get_permission_status_name(to_dict=False):
         (PermissionStatusCodes.USERS ,"User"),
         (PermissionStatusCodes.PERMISSION ,"Permission"),
         (PermissionStatusCodes.VEHICLES ,"Vehicles"),
-        (PermissionStatusCodes.FINANCIAL_REPORT ,"Financial report"),
-        (PermissionStatusCodes.VEHICLE_REPORT ,"Vehicle report"),
-        (PermissionStatusCodes.MILEAGE_REPORT ,"Mileage report"),
         (PermissionStatusCodes.TRANSPORT, "Transport"),
+        (PermissionStatusCodes.VEHICLE_REPORT ,"Vehicle report"),
+        (PermissionStatusCodes.TRANSPORT_REPORT ,"Transport report"),
     ]
     if to_dict:
         return dict(status_name)

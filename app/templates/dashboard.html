@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-12 col-sm-6 col-md-4">
+<div class="row">
+  <div class="col-12 col-sm-6 col-md-4">
     <div class="info-box">
       <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
 
@@ -32,4 +32,24 @@
     </div>
   </div>
 </div>
+<div class="container mt-4">
+  <div class="card card-outline card-main-yellow">
+    <div class="card-header d-flex">
+      <h4 class="card-title text-nowrap mr-auto">Transport statistics</h4>
+      <div>
+      <select id="chartViewSelector" class="form-control mr-auto">
+        <option value="monthly">Monthly</option>
+        <option value="last_week">Past 7 days</option>
+      </select>
+      </div>
+    </div>
+    <div class="card-body">
+      <canvas id="transportChart" width="400" height="200"></canvas>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/transport_chart.js') }}"></script>
 {% endblock %}

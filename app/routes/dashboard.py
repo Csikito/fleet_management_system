@@ -10,6 +10,8 @@ from ..forms import PermissionForm, NewUserForm, EditUserForm, VehicleForm, Tran
 from ..util import get_vehicle_type_status_name, get_vehicle_model_status_name, get_transport_cargo_name
 from ..vehicle_report import VehicleReport
 from ..transport_report import TransportReport
+from ..stats.lastweek_stats import LastWeekStats
+from ..stats.monthly_stats import MonthlyStats
 
 
 admin_page = Blueprint("dashboard", __name__)
@@ -387,7 +389,9 @@ def transport_edit(id):
                            form=form,
                            )
 
+
 @admin_page.route('/transport_report', methods=["GET"])
+@register_breadcrumbs(admin_page, ".transport_report", "Transport report")
 @permission_required(PermissionStatusCodes.TRANSPORT_REPORT)
 def transport_report():
     report_format = request.args.get('format', '')
@@ -402,3 +406,12 @@ def transport_report():
     return render_template("base_report.html",
                            title="Transport report"
                            )
+
+
+@admin_page.route("/transport_chart_data", methods=["GET"])
+@permission_required(PermissionStatusCodes.TRANSPORT)
+def transport_chart_data():
+    view = request.args.get("view", "monthly")
+    stats= LastWeekStats() if view == "last_week" else MonthlyStats()
+
+    return jsonify(stats.to_json())

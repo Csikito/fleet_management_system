@@ -1,8 +1,7 @@
 import json
 import datetime
-from enum import unique
 
-from flask_login import UserMixin, current_user
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from .util import get_permission_status_name
@@ -49,6 +48,7 @@ class User(UserMixin, db.Model, MyDbModel):
     permission = db.Column(db.Integer(), db.ForeignKey(Permission.id), nullable=True)
     permissions = db.relationship(Permission, foreign_keys=[permission])
     active = db.Column(db.Boolean())
+    is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

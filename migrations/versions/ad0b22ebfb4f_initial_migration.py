@@ -36,6 +36,7 @@ def upgrade():
     sa.Column('password', sa.String(length=200), nullable=True),
     sa.Column('app_right', sa.Integer(), nullable=True),
     sa.Column('active', sa.Boolean(), nullable=True),
+    sa.Column('is_admin', sa.Boolean(), default=False, nullable=True),
     sa.ForeignKeyConstraint(['app_right'], ['user_right.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id'),

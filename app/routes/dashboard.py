@@ -147,10 +147,16 @@ def server_side_user():
         3: User.permissions,
     }
     order_column = column_map.get(order_column_index, User.first_name)
+    if order_column_index == 3:
+        query = User.query.join(Permission).filter(User.is_admin != True)
+        order_column = Permission.name
+    else:
+        query = User.query.filter(User.is_admin != True)
+
     if order_dir == 'desc':
         order_column = order_column.desc()
 
-    query = User.query.filter(User.is_admin != True).order_by(order_column).offset(start).limit(length)
+    query = query.order_by(order_column).offset(start).limit(length)
     total_records = User.query.filter(User.is_admin != True).count()
 
     data = [{"id":user.id, "image":base64.b64encode(user.image).decode('utf-8') if user.image else None,
@@ -328,12 +334,13 @@ def server_side_transport():
     order_dir = request.args.get('order_dir', 'asc')
 
     column_map = {
-        1: Transport.date,
-        2: Transport.delivered_by,
-        3: Transport.origin,
-        4: Transport.destination,
-        5: Transport.cargo,
-        6: Transport.amount
+        0: Transport.date,
+        1: Transport.delivered_by,
+        2: Transport.origin,
+        3: Transport.destination,
+        4: Transport.cargo,
+        5: Transport.amount,
+        6: Transport.total_fee
     }
 
     order_column = column_map.get(order_column_index, Transport.date)

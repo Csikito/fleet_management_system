@@ -1,6 +1,9 @@
 import json
 import datetime
 
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy import cast, Float
+
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
@@ -106,3 +109,10 @@ class Transport(db.Model, MyDbModel):
     delivered_by = db.Column(db.Integer(), db.ForeignKey(User.id), nullable=True)
     user = db.relationship(User, foreign_keys=[delivered_by])
 
+    @hybrid_property
+    def total_fee(self):
+        return self.amount * self.unit_price
+
+    @total_fee.expression
+    def total_fee(cls):
+        return cast(cls.amount, Float) * cast(cls.unit_price, Float)

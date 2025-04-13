@@ -53,11 +53,18 @@ def permission_required(permission_key):
     def decorator(func):
         @wraps(func)
         def wrapped(*args, **kwargs):
+            target_id = kwargs.get("id", None)
+
             if not current_user.is_authenticated:
                 abort(403)
+
+            if target_id is not None and target_id == current_user.id:
+                return func(*args, **kwargs)
+
             if getattr(current_user, 'is_admin', False):
                 return func(*args, **kwargs)
             permissions = json.loads(current_user.permissions.permissions) or {}
+
             if not permission_key in permissions:
                 abort(403)
             return func(*args, **kwargs)

@@ -10,7 +10,8 @@ db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
 
-from .models import User
+from .models import User, PermissionStatusCodes
+from .permissions_helper import has_permission
 
 def create_app(flask_app, test=False):
     app = Flask(__name__)
@@ -25,12 +26,15 @@ def create_app(flask_app, test=False):
 
     db.init_app(app)
     migrate.init_app(app, db)
+    app.jinja_env.globals["has_permission"] = has_permission
+    app.jinja_env.globals["PermissionStatusCodes"] = PermissionStatusCodes
 
     if flask_app == "FLEET":
         login_manager.init_app(app)
         login_manager.login_view = "login_page.login"
         app.config['REMEMBER_COOKIE_DURATION'] = 60 * 60 * 24 * 7  # 7 day
         app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # e.g update img
+
 
         @login_manager.user_loader
         def load_user(user_id):

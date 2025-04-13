@@ -3,7 +3,7 @@ import base64
 import datetime
 
 from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify, current_app
-from flask_login import current_user, login_required
+from flask_login import login_required
 from ..decorators import register_breadcrumbs, permission_required, get_breadcrumbs, permission_required
 from ..models import User, Permission, PermissionStatusCodes, Vehicle, Transport
 from ..forms import PermissionForm, NewUserForm, EditUserForm, VehicleForm, TransportForm
@@ -87,6 +87,7 @@ def server_side_permission():
 
 @admin_page.route('/permission_edit/<int:id>', methods=["GET", "POST"])
 @register_breadcrumbs(admin_page, ".permission_edit.id", "Permission edit ")
+@permission_required(PermissionStatusCodes.PERMISSION)
 def permission_edit(id):
     if id == 0:
         permission = Permission()
@@ -116,6 +117,7 @@ def permission_edit(id):
 
 @admin_page.route('/permission_delete/<int:id>', methods=["GET", "POST"])
 @register_breadcrumbs(admin_page, ".permission_delete.id", "Permission edit ")
+@permission_required(PermissionStatusCodes.PERMISSION)
 def permission_delete(id):
     permission = Permission.query.get_or_404(id)
     permission.delete()
@@ -170,7 +172,8 @@ def server_side_user():
 
 
 @admin_page.route('/user_edit/<int:id>', methods=["GET", "POST"])
-@register_breadcrumbs(admin_page, ".user_edit.id", "User edit ")
+@register_breadcrumbs(admin_page, ".user_edit.id", "User edit")
+@permission_required(PermissionStatusCodes.USERS)
 def user_edit(id):
     if id == 0:
         user = User()
@@ -259,6 +262,7 @@ def server_side_vehicle():
 
 @admin_page.route('/vehicle_edit/<int:id>', methods=["GET", "POST"])
 @register_breadcrumbs(admin_page, ".vehicle_edit.id", "Vehicle edit")
+@permission_required(PermissionStatusCodes.VEHICLES)
 def vehicle_edit(id):
     if id == 0:
         vehicle = Vehicle()
@@ -369,6 +373,7 @@ def server_side_transport():
 
 @admin_page.route('/transport_edit/<int:id>', methods=["GET", "POST"])
 @register_breadcrumbs(admin_page, ".transport_edit.id", "Transport edit")
+@permission_required(PermissionStatusCodes.TRANSPORT)
 def transport_edit(id):
     if id == 0:
         transport = Transport()

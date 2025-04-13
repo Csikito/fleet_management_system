@@ -64,30 +64,39 @@
               </p>
             </a>
           </li>
+          {% if has_permission(current_user, PermissionStatusCodes.PERMISSION) %}
           <li class="nav-item">
             <a href="{{ url_for('dashboard.permission') }}" class="nav-link">
               <i class="nav-icon fas fa-user-lock"></i>
               <p>Permission</p>
             </a>
           </li>
+          {% endif%}
+          {% if has_permission(current_user, PermissionStatusCodes.USERS) %}
           <li class="nav-item">
             <a href="{{ url_for('dashboard.users') }}" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>Users</p>
             </a>
           </li>
+          {% endif%}
+          {% if has_permission(current_user, PermissionStatusCodes.VEHICLES) %}
           <li class="nav-item">
             <a href="{{ url_for('dashboard.vehicles') }}" class="nav-link">
               <i class="nav-icon fas fa-truck-pickup"></i>
               <p>Vehicles</p>
             </a>
           </li>
+          {% endif%}
+          {% if has_permission(current_user, PermissionStatusCodes.TRANSPORT) %}
           <li class="nav-item">
             <a href="{{ url_for('dashboard.transport') }}" class="nav-link">
               <i class="nav-icon fas fa-dolly"></i>
               <p>Transport</p>
             </a>
           </li>
+          {% endif%}
+          {% if has_permission(current_user, PermissionStatusCodes.VEHICLE_REPORT) or has_permission(current_user, PermissionStatusCodes.TRANSPORT_REPORT) %}
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-file-lines"></i>
@@ -97,20 +106,25 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              {% if has_permission(current_user, PermissionStatusCodes.VEHICLE_REPORT) %}
               <li class="nav-item">
                 <a href="{{ url_for('dashboard.vehicle_report') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Vehicle</p>
                 </a>
               </li>
+              {% endif%}
+              {% if has_permission(current_user, PermissionStatusCodes.TRANSPORT_REPORT) %}
               <li class="nav-item">
                 <a href="{{ url_for('dashboard.transport_report') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Transport</p>
                 </a>
               </li>
+              {% endif%}
             </ul>
           </li>
+           {% endif%}
            <li class="nav-item">
             <a href="{{ url_for('dashboard.support') }}" class="nav-link">
               <i class="nav-icon fas fa-headset"></i>

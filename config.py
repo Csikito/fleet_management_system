@@ -13,6 +13,8 @@ class DatabaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     def __init__(self, flask_app):
         self.__class__.SECRET_KEY = ini[flask_app]["secret_key"].encode()
+        self.__class__.ADMIN_USERNAME = ini[flask_app]["admin_username"].encode()
+        self.__class__.ADMIN_PASSWORD = ini[flask_app]["admin_password"].encode()
 
 class Config(DatabaseConfig):
     SQLALCHEMY_DATABASE_URI = get_uri(ini["SQLALCHEMY_DATABASE_URI"])

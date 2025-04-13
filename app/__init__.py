@@ -6,7 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 
-
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
@@ -41,7 +40,9 @@ def create_app(flask_app, test=False):
         with app.app_context():
             from .routes import auth, dashboard
             from .util import page_not_found, page_internal_server_error , page_no_access
+            from .init_admin import create_admin_user
 
+            create_admin_user()
             app.register_blueprint(auth.login_page)
             app.register_blueprint(dashboard.admin_page)
             app.register_error_handler(403, page_no_access)

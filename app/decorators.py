@@ -55,6 +55,8 @@ def permission_required(permission_key):
         def wrapped(*args, **kwargs):
             if not current_user.is_authenticated:
                 abort(403)
+            if getattr(current_user, 'is_admin', False):
+                return func(*args, **kwargs)
             permissions = json.loads(current_user.permissions.permissions) or {}
             if not permission_key in permissions:
                 abort(403)

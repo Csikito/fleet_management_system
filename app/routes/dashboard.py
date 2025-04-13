@@ -150,8 +150,8 @@ def server_side_user():
     if order_dir == 'desc':
         order_column = order_column.desc()
 
-    query = User.query.order_by(order_column).offset(start).limit(length)
-    total_records = User.query.count()
+    query = User.query.filter(User.is_admin != True).order_by(order_column).offset(start).limit(length)
+    total_records = User.query.filter(User.is_admin != True).count()
 
     data = [{"id":user.id, "image":base64.b64encode(user.image).decode('utf-8') if user.image else None,
              "name": f"{user.first_name} {user.last_name}", "username": user.username, "permission": user.permissions.name} for user in query]

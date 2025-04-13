@@ -41,8 +41,21 @@ $(document).ready(function() {
             { title: 'Origin', data: 'origin'},
             { title: 'Destination', data: 'destination' },
             { title: 'Cargo', data: 'cargo' },
-            { title: 'Amount (kg)', data: 'amount' },
-            { title: 'Total Fee', data: 'total_fee' }
+            { title: 'Amount', data: 'amount', className: 'dt-type-numeric', render: function (data, type, row) {
+                return `${data} kg `
+            }
+            },
+            { title: 'Total Fee', data: 'total_fee', className: 'dt-type-numeric', render: function (data, type, row) {
+                if (!data || isNaN(data)) return "-";
+
+                const formatter = new Intl.NumberFormat('hu-HU', {
+                  style: 'decimal',
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                });
+
+                return formatter.format(data) + " DIN";
+              } }
         ]
     });
   });

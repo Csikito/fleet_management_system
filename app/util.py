@@ -58,7 +58,7 @@ def get_vehicle_model_status_name(to_dict=False):
 
 def get_user_id_name(to_dict=False):
     from .models import User
-    users = User.query.all()
+    users = User.query.filter(User.is_admin != True).all()
     user_list = [(user.id, f"{user.first_name} {user.last_name}") for user in users] # (id, name)
     if to_dict:
         return dict(user_list)

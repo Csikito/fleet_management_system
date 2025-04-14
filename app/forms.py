@@ -96,13 +96,13 @@ class VehicleForm(FlaskForm):
     registration_expiry_date = DateField('Registration expiry date',
                                                   format='%Y-%m-%d',
                                                   validators=[DataRequired(message='The registration expiry date field is required')])
-    driver = SelectField("Driver", choices=get_user_id_name())
+    driver = SelectField("Driver", coerce=int, choices=get_user_id_name())
 
     submit = SubmitField('Save')
 
 
 class TransportForm(FlaskForm):
-    delivered_by = SelectField("Delivered by", choices=get_user_id_name())
+    delivered_by = SelectField("Delivered by", coerce=int, choices=get_user_id_name())
     origin = StringField('Origin', validators=[DataRequired(message='The origin field is required')])
     destination = StringField('Destination', validators=[DataRequired(message='The destination field is required')])
     distance = IntegerField('Distance (km)')

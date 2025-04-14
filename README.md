@@ -57,7 +57,25 @@ Copy the example files to create your actual config files and fill in your own v
 You can add new users or vehicles through the admin interface. All features are available for admin-level users.
 
 ## 📸 Screenshots
-    ...
+<h3 align='center'>Login page 🔐</h3>
+<div align='center'>
+
+![fleet_1](https://github.com/user-attachments/assets/926ea063-048a-439e-874a-e9768467246a)
+</div>
+
+<h3 align='center'>Dashboard 📊</h3>
+<div align='center'>
+
+![fleet_2](https://github.com/user-attachments/assets/1547eefc-e867-4ed8-8c0b-b8bb247c2764)
+</div>
+
+<h3 align='center'>Transport 🚛</h3>
+<div align='center'>
+
+![fleet_3](https://github.com/user-attachments/assets/2f6c1259-fbf1-4d91-9432-be0aa4e3311e)
+
+</div>
+
 
 ## 📃 Licenc
 This project was created for educational and personal learning purposes.

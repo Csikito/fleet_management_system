@@ -1,22 +1,22 @@
 [SQLALCHEMY_DATABASE_URI]
-dialect="mysql"
-username="username"
-password="password"
-port="3306"
-host="localhost"
-database="fleet_db"
+dialect=mysql
+username=username
+password=password
+port=3306
+host=localhost
+database=fleet_db
 
 [SQLALCHEMY_TEST_DATABASE_URI]
-dialect="mysql"
-username="username"
-password="password"
-port="3306"
-host="localhost"
-database="test_db"
+dialect=mysql
+username=username
+password=password
+port=3306
+host=localhost
+database=test_db
 
 
 [FLEET]
-secret_key="secret_key"
-port="5003"
+secret_key=secret_key
+port=5003
 admin_username=admin
 admin_password=password

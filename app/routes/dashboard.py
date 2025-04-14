@@ -34,7 +34,7 @@ def dashboard():
     closest_vehicle = Vehicle.query.filter(Vehicle.registration_expiry_date >= datetime.datetime.today()) \
         .order_by(Vehicle.registration_expiry_date.asc()) \
         .first()
-    data= { "users": User.query.count(),
+    data= { "users": User.query.filter(User.is_admin != True).count(),
             "vehicles": Vehicle.query.count(),
             "upcoming_operation": closest_vehicle.registration_expiry_date if closest_vehicle else "-"
             }

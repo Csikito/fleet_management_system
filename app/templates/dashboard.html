@@ -23,13 +23,15 @@
     </div>
   </div>
   <div class="col-12 col-sm-6 col-md-4">
-    <div class="info-box">
+    <a href="{{ url_for('dashboard.vehicles') }}" class="info-box cursor_pointer">
       <span class="info-box-icon bg-yellow"><i class="fa fa-wrench"></i></span>
       <div class="info-box-content">
         <span class="info-box-text">Upcoming maintenance or registration</span>
-        <span class="info-box-number">{{data.upcoming_operation}}</span>
+        <span class="info-box-number" title="">{{data.upcoming_operation}}
+          <span class="text-yellow">[{{ data.license_plate }}]</span>
+        </span>
       </div>
-    </div>
+    </a>
   </div>
 </div>
 <div class="container mt-4">

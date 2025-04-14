@@ -36,7 +36,9 @@ def dashboard():
         .first()
     data= { "users": User.query.filter(User.is_admin != True).count(),
             "vehicles": Vehicle.query.count(),
-            "upcoming_operation": closest_vehicle.registration_expiry_date if closest_vehicle else "-"
+            "upcoming_operation": closest_vehicle.registration_expiry_date if closest_vehicle else "-",
+            "license_plate": f"{closest_vehicle.license_plate}" if closest_vehicle else "-",
+
             }
     return render_template("dashboard.html",
                            data = data,

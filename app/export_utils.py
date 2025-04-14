@@ -98,12 +98,8 @@ def generate_pdf(data_rows, headers, title="Export PDF", filename="export.pdf"):
     # TABLE HEADER
     data = [headers] + data_rows
 
-    # ADD DATA (every second row will have a light gray background)
-    for i, row in enumerate(data_rows, start=1):
-       data.append(row)
-
     # CREATE TABLE
-    table = Table(data, colWidths=[80, 100, 50, 100, 80, 80])
+    table = Table(data)
 
     # TABLE STYLES
     style = TableStyle([
